@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <!-- <link rel="stylesheet" href="css/styles.css"> -->
+        <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        #map {
+            width: 100%;
+            height: calc(100% - 76px); /* Adjust based on the height of the navbar */
+            padding: 0;
+            margin: 0;
+        }
+        .dropdown-menu {
+        max-width: 200px; /* Set maximum width for dropdown menu */
+        white-space: normal; /* Allow text to wrap */
+        }
+        .dropdown-item {
+            white-space: normal; /* Allow text to wrap */
+        }
+        .navbar-brand img {
+            height: 50px; /* Adjust the height as needed */
+            margin-right: 10px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem; /* Adjust font size for the brand text */
+            color: #343a40 !important; /* Dark text for the brand */
+        }
+        .nav-link {
+            font-size: 1.25rem; /* Adjust font size for the dropdown button text */
+            color: #343a40 !important; /* Dark text for links */
+        }
+        .navbar {
+            background-color: #ffffff !important; /* White background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a slight shadow for depth */
+        }
+        .nav-link:hover,
+        .nav-link:focus {
+            color: #ffdd57 !important; /* Change color on hover */
+        }
+        .dropdown-menu {
+            background-color: #ffffff !important; /* White background for dropdown menu */
+            border: none; /* Remove border */
+        }
+        .dropdown-item {
+            color: #343a40 !important; /* Dark text for dropdown items */
+        }
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: #ffdd57 !important; /* Highlight dropdown items on hover */
+            color: #343a40 !important; /* Dark text on hover */
+        }
+        .navbar-toggler {
+            border-color: rgba(0, 0, 0, 0.1); /* Light border color for toggler */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        </style>
+        <title>TRIPETA</title>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="#">
+                <img src="images/pens.png" alt="Logo"> <!-- Replace with the path to your logo -->
+                TRIPETA
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pacet
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" href="https://pacet-topo.vercel.app/">Topografi</a>
+                            <a class="dropdown-item" href="https://pacet-irigasi.vercel.app/">Irigasi</a>
+                            <a class="dropdown-item" href="https://pacet-hasil-panen.vercel.app/">Hasil Panen</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Menganti
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown2">
+                            <a class="dropdown-item" href="#">Topografi</a>
+                            <a class="dropdown-item" href="#">Irigasi</a>
+                            <a class="dropdown-item" href="#">Hasil Panen</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Lendah
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown3">
+                            <a class="dropdown-item" href="#">Topografi</a>
+                            <a class="dropdown-item" href="#">Irigasi</a>
+                            <a class="dropdown-item" href="#">Hasil Panen</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/L.Control.Layers.Tree.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/DTM_modifiednewe_2.js"></script>
+
+        <!-- Bootstrap JS, Popper.js, and jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+        var map = L.map('map', {
+            zoomControl:false, maxZoom:28, minZoom:18
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        // remove popup's row if "visible-with-data"
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        // add class to format popup if it contains media
+		function addClassToPopupIfMedia(content, popup) {
+			var tempDiv = document.createElement('div');
+			tempDiv.innerHTML = content;
+			if (tempDiv.querySelector('td img')) {
+				popup._contentNode.classList.add('media');
+					// Delay to force the redraw
+					setTimeout(function() {
+						popup.update();
+					}, 10);
+			} else {
+				popup._contentNode.classList.remove('media');
+			}
+		}
+        var abstract = new L.Control({'position':'bottomleft'});
+        abstract.onAdd = function (map) {
+            this._div = L.DomUtil.create('div',
+            'leaflet-control abstract');
+            this._div.id = 'abstract'
+
+                abstract.show();
+                return this._div;
+            };
+            abstract.show = function () {
+                this._div.classList.remove("abstract");
+                this._div.classList.add("abstractUncollapsed");
+                this._div.innerHTML = 'Peta Topografi Lingkungan Persawahan Kecamatan Pacet';
+        };
+        abstract.addTo(map);
+        var zoomControl = L.control.zoom({
+            position: 'topleft'
+        }).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_GoogleSatellite_0');
+        map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
+        var layer_GoogleSatellite_0 = L.tileLayer('http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 18,
+            maxZoom: 28,
+        });
+        layer_GoogleSatellite_0;
+        map.addLayer(layer_GoogleSatellite_0);
+        map.createPane('pane_DTM_modifiednew_1');
+        map.getPane('pane_DTM_modifiednew_1').style.zIndex = 401;
+        var img_DTM_modifiednew_1 = 'data/DTM_modifiednew_1.png';
+        var img_bounds_DTM_modifiednew_1 = [[-7.623916277108189,112.53548321150402],[-7.622902931142532,112.53697930770385]];
+        var layer_DTM_modifiednew_1 = new L.imageOverlay(img_DTM_modifiednew_1,
+                                              img_bounds_DTM_modifiednew_1,
+                                              {pane: 'pane_DTM_modifiednew_1'});
+        bounds_group.addLayer(layer_DTM_modifiednew_1);
+        map.addLayer(layer_DTM_modifiednew_1);
+        function pop_DTM_modifiednewe_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Elevasi (m)</th>\
+                        <td class="visible-with-data" id="Elevasi (m)">' + (feature.properties['Elevasi (m)'] !== null ? autolinker.link(feature.properties['Elevasi (m)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_DTM_modifiednewe_2_0() {
+            return {
+                pane: 'pane_DTM_modifiednewe_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_DTM_modifiednewe_2');
+        map.getPane('pane_DTM_modifiednewe_2').style.zIndex = 402;
+        map.getPane('pane_DTM_modifiednewe_2').style['mix-blend-mode'] = 'normal';
+        var layer_DTM_modifiednewe_2 = new L.geoJson(json_DTM_modifiednewe_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_DTM_modifiednewe_2',
+            layerName: 'layer_DTM_modifiednewe_2',
+            pane: 'pane_DTM_modifiednewe_2',
+            onEachFeature: pop_DTM_modifiednewe_2,
+            style: style_DTM_modifiednewe_2_0,
+        });
+        bounds_group.addLayer(layer_DTM_modifiednewe_2);
+        map.addLayer(layer_DTM_modifiednewe_2);
+        var baseMaps = {};
+        var overlaysTree = [
+            {label: '<img src="legend/DTM_modifiednewe_2.png" /> DTM_modified newe', layer: layer_DTM_modifiednewe_2},
+            {label: "DTM_modified new", layer: layer_DTM_modifiednew_1},
+            {label: "Google Satellite", layer: layer_GoogleSatellite_0},]
+        var lay = L.control.layers.tree(null, overlaysTree,{
+            //namedToggle: true,
+            //selectorBack: false,
+            //closedSymbol: '&#8862; &#x1f5c0;',
+            //openedSymbol: '&#8863; &#x1f5c1;',
+            //collapseAll: 'Collapse all',
+            //expandAll: 'Expand all',
+            collapsed: false, 
+        });
+        lay.addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
