@@ -137,7 +137,7 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="data/DTM_modifiednewe_2.js"></script>
+        <script src="data/GarisKontur_3.js"></script>
 
         <!-- Bootstrap JS, Popper.js, and jQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -224,16 +224,25 @@
         });
         layer_GoogleSatellite_0;
         map.addLayer(layer_GoogleSatellite_0);
-        map.createPane('pane_DTM_modifiednew_1');
-        map.getPane('pane_DTM_modifiednew_1').style.zIndex = 401;
-        var img_DTM_modifiednew_1 = 'data/DTM_modifiednew_1.png';
-        var img_bounds_DTM_modifiednew_1 = [[-7.623916277108189,112.53548321150402],[-7.622902931142532,112.53697930770385]];
-        var layer_DTM_modifiednew_1 = new L.imageOverlay(img_DTM_modifiednew_1,
-                                              img_bounds_DTM_modifiednew_1,
-                                              {pane: 'pane_DTM_modifiednew_1'});
-        bounds_group.addLayer(layer_DTM_modifiednew_1);
-        map.addLayer(layer_DTM_modifiednew_1);
-        function pop_DTM_modifiednewe_2(feature, layer) {
+        map.createPane('pane_Orthomosaic_1');
+        map.getPane('pane_Orthomosaic_1').style.zIndex = 401;
+        var img_Orthomosaic_1 = 'data/Orthomosaic_1.png';
+        var img_bounds_Orthomosaic_1 = [[-7.623917080856694,112.53548343759712],[-7.62290429916348,112.53698034258313]];
+        var layer_Orthomosaic_1 = new L.imageOverlay(img_Orthomosaic_1,
+                                              img_bounds_Orthomosaic_1,
+                                              {pane: 'pane_Orthomosaic_1'});
+        bounds_group.addLayer(layer_Orthomosaic_1);
+        map.addLayer(layer_Orthomosaic_1);
+        map.createPane('pane_DTM_2');
+        map.getPane('pane_DTM_2').style.zIndex = 402;
+        var img_DTM_2 = 'data/DTM_2.png';
+        var img_bounds_DTM_2 = [[-7.623916277108189,112.53548321150402],[-7.622902931142532,112.53697930770385]];
+        var layer_DTM_2 = new L.imageOverlay(img_DTM_2,
+                                              img_bounds_DTM_2,
+                                              {pane: 'pane_DTM_2'});
+        bounds_group.addLayer(layer_DTM_2);
+        map.addLayer(layer_DTM_2);
+        function pop_GarisKontur_3(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">Elevasi (m)</th>\
@@ -247,9 +256,9 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_DTM_modifiednewe_2_0() {
+        function style_GarisKontur_3_0() {
             return {
-                pane: 'pane_DTM_modifiednewe_2',
+                pane: 'pane_GarisKontur_3',
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
@@ -260,24 +269,25 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_DTM_modifiednewe_2');
-        map.getPane('pane_DTM_modifiednewe_2').style.zIndex = 402;
-        map.getPane('pane_DTM_modifiednewe_2').style['mix-blend-mode'] = 'normal';
-        var layer_DTM_modifiednewe_2 = new L.geoJson(json_DTM_modifiednewe_2, {
+        map.createPane('pane_GarisKontur_3');
+        map.getPane('pane_GarisKontur_3').style.zIndex = 403;
+        map.getPane('pane_GarisKontur_3').style['mix-blend-mode'] = 'normal';
+        var layer_GarisKontur_3 = new L.geoJson(json_GarisKontur_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_DTM_modifiednewe_2',
-            layerName: 'layer_DTM_modifiednewe_2',
-            pane: 'pane_DTM_modifiednewe_2',
-            onEachFeature: pop_DTM_modifiednewe_2,
-            style: style_DTM_modifiednewe_2_0,
+            dataVar: 'json_GarisKontur_3',
+            layerName: 'layer_GarisKontur_3',
+            pane: 'pane_GarisKontur_3',
+            onEachFeature: pop_GarisKontur_3,
+            style: style_GarisKontur_3_0,
         });
-        bounds_group.addLayer(layer_DTM_modifiednewe_2);
-        map.addLayer(layer_DTM_modifiednewe_2);
+        bounds_group.addLayer(layer_GarisKontur_3);
+        map.addLayer(layer_GarisKontur_3);
         var baseMaps = {};
         var overlaysTree = [
-            {label: '<img src="legend/DTM_modifiednewe_2.png" /> DTM_modified newe', layer: layer_DTM_modifiednewe_2},
-            {label: "DTM_modified new", layer: layer_DTM_modifiednew_1},
+            {label: '<img src="legend/GarisKontur_3.png" /> Garis Kontur', layer: layer_GarisKontur_3},
+            {label: "DTM", layer: layer_DTM_2},
+            {label: "Orthomosaic", layer: layer_Orthomosaic_1},
             {label: "Google Satellite", layer: layer_GoogleSatellite_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
