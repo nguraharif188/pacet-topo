@@ -138,7 +138,7 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="data/GarisKontur_3.js"></script>
-
+        
         <!-- Bootstrap JS, Popper.js, and jQuery -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -245,8 +245,12 @@
         function pop_GarisKontur_3(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">Elevasi (m)</th>\
-                        <td class="visible-with-data" id="Elevasi (m)">' + (feature.properties['Elevasi (m)'] !== null ? autolinker.link(feature.properties['Elevasi (m)'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Elevasi</th>\
+                        <td class="visible-with-data" id="Elevasi">' + (feature.properties['Elevasi'] !== null ? autolinker.link(feature.properties['Elevasi'].toLocaleString()) + ' m' : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Last Update</th>\
+                        <td class="always-visible" id="Last Update">November 2023</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
