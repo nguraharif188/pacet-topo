@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
-        <!-- <link rel="stylesheet" href="css/styles.css"> -->
         <style>
         html, body {
             width: 100%;
@@ -25,64 +24,18 @@
         }
         #map {
             width: 100%;
-            height: calc(100% - 76px); /* Adjust based on the height of the navbar */
+            height: calc(100% - 76px);
             padding: 0;
             margin: 0;
         }
-        .dropdown-menu {
-        max-width: 200px; /* Set maximum width for dropdown menu */
-        white-space: normal; /* Allow text to wrap */
-        }
-        .dropdown-item {
-            white-space: normal; /* Allow text to wrap */
-        }
-        .navbar-brand img {
-            height: 50px; /* Adjust the height as needed */
-            margin-right: 10px;
-        }
-        .navbar-brand {
-            font-size: 1.5rem; /* Adjust font size for the brand text */
-            color: #343a40 !important; /* Dark text for the brand */
-        }
-        .nav-link {
-            font-size: 1.25rem; /* Adjust font size for the dropdown button text */
-            color: #343a40 !important; /* Dark text for links */
-        }
-        .navbar {
-            background-color: #ffffff !important; /* White background */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a slight shadow for depth */
-        }
-        .nav-link:hover,
-        .nav-link:focus {
-            color: #ffdd57 !important; /* Change color on hover */
-        }
-        .dropdown-menu {
-            background-color: #ffffff !important; /* White background for dropdown menu */
-            border: none; /* Remove border */
-        }
-        .dropdown-item {
-            color: #343a40 !important; /* Dark text for dropdown items */
-        }
-        .dropdown-item:hover,
-        .dropdown-item:focus {
-            background-color: #ffdd57 !important; /* Highlight dropdown items on hover */
-            color: #343a40 !important; /* Dark text on hover */
-        }
-        .navbar-toggler {
-            border-color: rgba(0, 0, 0, 0.1); /* Light border color for toggler */
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-        }
-
-    </style>
+        </style>
         <title>TRIPETA AGRICULTURE | Topografi Pacet</title>
     </head>
     <body>
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg">
             <a class="navbar-brand" href="#">
-                <img src="images/pens.png" alt="Logo"> <!-- Replace with the path to your logo -->
+                <img src="images/pens.png" alt="Logo">
                 TRIPETA AGRICULTURE
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -144,6 +97,21 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
         <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:18
         })
@@ -242,6 +210,16 @@
         bounds_group.addLayer(layer_DTM_2);
         map.addLayer(layer_DTM_2);
         function pop_GarisKontur_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">Elevasi</th>\
@@ -289,7 +267,7 @@
         var baseMaps = {};
         var overlaysTree = [
             {label: '<img src="legend/GarisKontur_3.png" /> Garis Kontur', layer: layer_GarisKontur_3},
-            {label: "DTM", layer: layer_DTM_2},
+            {label: '<img src="legend/DTM.png" /> DTM', layer: layer_DTM_2},
             {label: "Orthomosaic", layer: layer_Orthomosaic_1},
             {label: "Google Satellite", layer: layer_GoogleSatellite_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{

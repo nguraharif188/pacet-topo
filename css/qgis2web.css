@@ -150,3 +150,50 @@
         .leaflet-popup-pane {
             z-index: 700;
         }
+        
+        
+        .dropdown-menu {
+            max-width: 200px; /* Set maximum width for dropdown menu */
+            white-space: normal; /* Allow text to wrap */
+        }
+        .dropdown-item {
+            white-space: normal; /* Allow text to wrap */
+        }
+        .navbar-brand img {
+            height: 50px; /* Adjust the height as needed */
+            margin-right: 10px;
+        }
+        .navbar-brand {
+            font-size: 1.4rem; /* Adjust font size for the brand text */
+            color: #343a40 !important; /* Dark text for the brand */
+        }
+        .nav-link {
+            font-size: 1.25rem; /* Adjust font size for the dropdown button text */
+            color: #343a40 !important; /* Dark text for links */
+        }
+        .navbar {
+            background-color: #ffffff !important; /* White background */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a slight shadow for depth */
+        }
+        .nav-link:hover,
+        .nav-link:focus {
+            color: #ffdd57 !important; /* Change color on hover */
+        }
+        .dropdown-menu {
+            background-color: #ffffff !important; /* White background for dropdown menu */
+            border: none; /* Remove border */
+        }
+        .dropdown-item {
+            color: #343a40 !important; /* Dark text for dropdown items */
+        }
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: #ffdd57 !important; /* Highlight dropdown items on hover */
+            color: #343a40 !important; /* Dark text on hover */
+        }
+        .navbar-toggler {
+            border-color: rgba(0, 0, 0, 0.1); /* Light border color for toggler */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
