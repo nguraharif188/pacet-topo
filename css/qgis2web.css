@@ -51,7 +51,6 @@
         .leaflet-tooltip-left:before, .leaflet-tooltip-right:before {
             border: 0px;
         }
-        }
         .fa, .leaflet-container, a {
             color: #444444 !important;
         }
@@ -161,7 +160,6 @@
         }
         .navbar-brand img {
             height: 50px; /* Adjust the height as needed */
-            margin-right: 10px;
         }
         .navbar-brand {
             font-size: 1.4rem; /* Adjust font size for the brand text */
